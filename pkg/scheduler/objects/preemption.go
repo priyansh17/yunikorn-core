@@ -554,8 +554,8 @@ func (p *Preemptor) TryPreemption() (*Allocation, bool) {
 				zap.Stringer("resources", victim.GetAllocatedResource()))
 		} else {
 			log.Log(log.SchedPreemption).Warn("BUG: Queue not found for preemption victim",
-				zap.String("applicationID", victim.GetApplicationID()),
-				zap.String("allocationKey", victim.GetAllocationKey()))
+				zap.String("victimApplicationID", victim.GetApplicationID()),
+				zap.String("victimAllocationKey", victim.GetAllocationKey()))
 		}
 	}
 
@@ -569,7 +569,7 @@ func (p *Preemptor) TryPreemption() (*Allocation, bool) {
 	// reserve the selected node for the new allocation if it will fit
 	if p.headRoom.FitInMaxUndef(p.ask.GetAllocatedResource()) {
 		log.Log(log.SchedPreemption).Info("Reserving node for ask after preemption",
-			zap.String("allocationKey", p.ask.GetAllocationKey()),
+			zap.String("victimAllocationKey", p.ask.GetAllocationKey()),
 			zap.String("nodeID", nodeID),
 			zap.Int("victimCount", len(victims)))
 		return newReservedAllocation(nodeID, p.ask), true
@@ -577,7 +577,7 @@ func (p *Preemptor) TryPreemption() (*Allocation, bool) {
 
 	// can't reserve as queue is still too full, but scheduling should succeed after preemption occurs
 	log.Log(log.SchedPreemption).Info("Preempting allocations for ask, but not reserving yet as queue is still above capacity",
-		zap.String("allocationKey", p.ask.GetAllocationKey()),
+		zap.String("victimAllocationKey", p.ask.GetAllocationKey()),
 		zap.Int("victimCount", len(victims)))
 
 	return nil, true

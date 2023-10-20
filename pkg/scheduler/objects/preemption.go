@@ -548,8 +548,8 @@ func (p *Preemptor) TryPreemption() (*Allocation, bool) {
 			victimQueue.IncPreemptingResource(victim.GetAllocatedResource())
 			victim.MarkPreempted()
 			log.Log(log.SchedPreemption).Info("Preempting task",
-				zap.String("applicationID", victim.GetApplicationID()),
-				zap.String("allocationKey", victim.GetAllocationKey()),
+				zap.String("victimApplicationID", victim.GetApplicationID()),
+				zap.String("victimAllocationKey", victim.GetAllocationKey()),
 				zap.String("nodeID", victim.GetNodeID()),
 				zap.Stringer("resources", victim.GetAllocatedResource()))
 		} else {
